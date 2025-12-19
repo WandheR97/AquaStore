@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="icon" type="image/png" href="/icon-192.png" />
+    <meta name="theme-color" content="#2563eb" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PDV Web</title>
+  </head>
+
+  <body>
+    <div id="modal-root"></div>
+    <div id="root"></div>
+
+    <script type="module" src="/src/main.jsx"></script>
+
+    <!-- CAMADA GLOBAL DE MODAIS -->
+    <div id="modal-layer" class="fixed inset-0 z-[999999] pointer-events-none"></div>
+
+    <!-- Registro do Service Worker (PWA) -->
+  </body>
+</html>

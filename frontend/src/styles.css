@@ -1,0 +1,288 @@
+/* Fonte principal */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+
+/* Tailwind */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ================================
+   🌊 ESTILO GLOBAL — Visual Premium
+=================================== */
+
+body {
+  font-family: "Inter", sans-serif;
+  @apply bg-gradient-to-br from-blue-50 via-white to-blue-100 
+         dark:from-gray-900 dark:via-gray-800 dark:to-gray-900
+         text-gray-800 dark:text-gray-100
+         min-h-screen transition-all duration-300;
+}
+
+/* ===== 🎯 Inputs Modernos ===== */
+input,
+select,
+textarea {
+  @apply border border-gray-300 dark:border-gray-600 
+         bg-white/80 dark:bg-gray-800/60 
+         rounded-xl px-3 py-2 
+         shadow-sm 
+         focus:border-blue-500 focus:ring-2 focus:ring-blue-300 
+         outline-none transition-all;
+}
+
+/* ===== 🔘 Botões Modernos ===== */
+.btn-primary {
+  @apply bg-blue-600 hover:bg-blue-700 
+         text-white font-medium 
+         px-4 py-2 rounded-xl 
+         shadow-md active:scale-95 transition;
+}
+
+.btn-secondary {
+  @apply bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 
+         text-gray-700 dark:text-gray-200 
+         px-4 py-2 rounded-xl shadow;
+}
+
+.btn-danger {
+  @apply bg-red-600 hover:bg-red-700 
+         text-white px-4 py-2 rounded-xl shadow transition;
+}
+
+/* ===== 🪟 Estilo de Modal (global) ===== */
+.modal-bg {
+  @apply fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center;
+  z-index: 9999;
+}
+
+.modal-box {
+  @apply bg-white dark:bg-gray-800 
+         rounded-2xl p-6 w-full max-w-md 
+         shadow-2xl border border-gray-100 dark:border-gray-700;
+}
+
+.modal-box {
+  animation: fadeIn 0.35s ease-out forwards; /* OU use animate-fade */
+}
+
+
+/* ===== ✨ Animação padrão ===== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fade { 
+  animation: fadeIn 0.35s ease-out forwards; 
+}
+
+/* ===== Notificações ===== */
+.notification-success {
+  @apply bg-green-600 text-white px-4 py-3 rounded-xl shadow-lg;
+}
+
+.notification-error {
+  @apply bg-red-600 text-white px-4 py-3 rounded-xl shadow-lg;
+}
+
+/* ===== Cartões ===== */
+.card {
+  @apply bg-white dark:bg-gray-800 
+         rounded-2xl shadow-md 
+         border border-gray-200 dark:border-gray-700 
+         p-5 transition;
+}
+
+.card-hover:hover {
+  @apply shadow-xl scale-[1.01];
+}
+
+/* ===== Tabelas Modernas ===== */
+.table {
+  @apply w-full border-collapse overflow-hidden rounded-xl shadow;
+}
+
+.table thead {
+  @apply bg-blue-100 dark:bg-gray-700;
+}
+
+.table th {
+  @apply p-3 font-semibold text-left border-b border-gray-300 dark:border-gray-600;
+}
+
+.table td {
+  @apply p-3 border-b border-gray-200 dark:border-gray-700;
+}
+
+/* ===== Scrollbar estilizado ===== */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(96, 165, 250);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgb(219, 234, 254);
+}
+
+/* ===== Notificação animada ===== */
+@keyframes fadeSlide {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  15% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  85% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}
+.animate-fade-in-out {
+  animation: fadeSlide 4s ease-in-out forwards;
+}
+
+
+@keyframes fadeSlow {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fade-slow {
+  animation: fadeSlow 0.5s ease-out forwards;
+}
+
+@media (prefers-color-scheme: dark) {
+  .dark-bg {
+    background-color: rgba(20, 20, 20, 0.7) !important;
+    backdrop-filter: blur(16px);
+  }
+
+  .dark-text {
+    color: #e5e7eb !important;
+  }
+
+  .dark-border {
+    border-color: rgba(255, 255, 255, 0.15) !important;
+  }
+
+  .dark-input {
+    background-color: rgba(30, 30, 30, 0.7) !important;
+    border-color: rgba(255, 255, 255, 0.15) !important;
+    color: white !important;
+  }
+
+  .dark-card {
+    background-color: rgba(40, 40, 40, 0.7) !important;
+    color: #e5e7eb !important;
+  }
+}
+
+@keyframes fadeSoft {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fade-soft {
+  animation: fadeSoft 0.35s ease-out forwards;
+}
+
+@keyframes slideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-slide-up {
+  animation: slideUp 0.4s ease-out forwards;
+}
+
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.animate-scale-in {
+  animation: scaleIn 0.25s ease-out forwards;
+}
+
+.premium-input {
+  @apply border border-gray-300 dark:border-gray-600 
+         bg-white/80 dark:bg-gray-800/60 
+         rounded-xl px-4 py-3 shadow-sm 
+         focus:border-blue-500 focus:ring-2 focus:ring-blue-300 
+         outline-none transition-all;
+}
+
+.premium-card {
+  @apply border border-gray-300 rounded-2xl p-6 bg-white
+         shadow-sm hover:shadow-md hover:scale-[1.02]
+         transition-all;
+}
+
+.premium-card, .premium-card-active {
+  transition: all 180ms ease;
+}
+
+.premium-card-active {
+  @apply border border-blue-600 bg-blue-50 
+         shadow-lg scale-[1.04] dark:border-blue-400;
+}
+
+.premium-checkbox {
+  @apply w-5 h-5 rounded-md border-gray-300 text-blue-600 cursor-pointer;
+}
+
+.custom-scroll::-webkit-scrollbar {
+  width: 10px;
+}
+
+.custom-scroll::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 12px;
+  margin: 8px;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 12px;
+  border: 2px solid #f1f1f1;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
