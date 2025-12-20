@@ -18,9 +18,11 @@ dotenv.config();
 process.env.JWT_SECRET = process.env.JWT_SECRET || "segredo_super_forte";
 const app = express();
 
+const PORT = process.env.PORT || 5000;
+
 // Permite requisições do frontend
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: "*",
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
 }));
@@ -156,14 +158,19 @@ CREATE TABLE IF NOT EXISTS sale_items (
 // ==========================================
 // USUÁRIO PADRÃO HOST
 // ==========================================
-const hostExists = await db.get("SELECT * FROM users WHERE role = 'host'");
-if (!hostExists) {
-  const hash = await bcrypt.hash("123456", 10);
-  await db.run(
-    "INSERT INTO users (username, password, role) VALUES (?, ?, ?)",
-    ["host", hash, "host"]
+if (process.env.NODE_ENV !== "production") {
+  const hostExists = await db.get(
+    "SELECT * FROM users WHERE role = 'host'"
   );
-  console.log("✅ Usuário padrão criado: host / 123456");
+
+  if (!hostExists) {
+    const hash = await bcrypt.hash("123456", 10);
+    await db.run(
+      "INSERT INTO users (username, password, role) VALUES (?, ?, ?)",
+      ["host", hash, "host"]
+    );
+    console.log("✅ Usuário host criado (DEV)");
+  }
 }
 
 // ==========================================
@@ -489,47 +496,6 @@ app.post("/sync/offline", auth, async (req, res) => {
 // 💧 Rota para vendas de piscina
 // ============================
 
-app.post("/sales", auth, async (req, res) => {
-  try {
-    const { items, total, discount, payment_method } = req.body;
-
-    if (!Array.isArray(items) || items.length === 0)
-      return res.status(400).json({ error: "Nenhum item na venda." });
-
-    const saleId = Date.now().toString();
-
-    await db.run(
-      `INSERT INTO sales (id, store_id, created_by, total, discount, payment_method, internal_use, seller_id, owner_id)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      [
-        saleId,
-        req.user.owner_id,
-        req.user.username,
-        total,
-        discount || 0,
-        payment_method,
-        0,
-        req.user.id,
-        req.user.owner_id,
-      ]
-    );
-
-    for (const item of items) {
-      await db.run(
-        `INSERT INTO sale_items (id, sale_id, product_id, qty, unit_price, cost_at_sale)
-         VALUES (?, ?, ?, ?, ?, ?)`,
-        [randomUUID(), saleId, item.product_id, item.qty, item.unit_price, 0]
-      );
-
-      await db.run(`UPDATE products SET stock = stock - ? WHERE id = ?`, [item.qty, item.product_id]);
-    }
-
-    res.json({ success: true, sale_id: saleId });
-  } catch (err) {
-    console.error("❌ Erro ao registrar venda:", err);
-    res.status(500).json({ error: "Erro ao registrar venda" });
-  }
-});
 
 
 // ==========================================
@@ -830,7 +796,9 @@ app.delete("/api/pools/:id", auth, async (req, res) => {
 // ==========================================
 // INICIAR SERVIDOR
 // ==========================================
-app.listen(5000, () => console.log("🚀 Servidor rodando em http://localhost:5000"));
+app.listen(PORT, () => {
+  console.log(`🚀 Servidor rodando na porta ${PORT}`);
+});
 
 // ======================================================
 // 🧾 Retorna os itens de uma venda específica
