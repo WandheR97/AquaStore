@@ -156,22 +156,25 @@ CREATE TABLE IF NOT EXISTS sale_items (
 `);
 
 // ==========================================
-// USUÁRIO PADRÃO HOST
+// USUÁRIO PADRÃO HOST (DEV + PRODUÇÃO)
 // ==========================================
-if (process.env.NODE_ENV !== "production") {
-  const hostExists = await db.get(
-    "SELECT * FROM users WHERE role = 'host'"
+const hostExists = await db.get(
+  "SELECT * FROM users WHERE role = 'host'"
+);
+
+if (!hostExists) {
+  const hash = await bcrypt.hash("123456", 10);
+
+  await db.run(
+    "INSERT INTO users (username, password, role) VALUES (?, ?, ?)",
+    ["host", hash, "host"]
   );
 
-  if (!hostExists) {
-    const hash = await bcrypt.hash("123456", 10);
-    await db.run(
-      "INSERT INTO users (username, password, role) VALUES (?, ?, ?)",
-      ["host", hash, "host"]
-    );
-    console.log("✅ Usuário host criado (DEV)");
-  }
+  console.log("✅ Usuário host criado automaticamente");
+} else {
+  console.log("ℹ️ Usuário host já existe");
 }
+
 
 // ==========================================
 // MIDDLEWARE DE AUTENTICAÇÃO (corrigido)
